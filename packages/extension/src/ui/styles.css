@@ -1,0 +1,25 @@
+#codexia-sidebar-root {
+  all: initial;
+}
+
+.codexia-sidebar {
+  position: fixed;
+  right: 0;
+  top: 0;
+  width: 380px;
+  height: 100vh;
+  box-shadow: -2px 0 4px rgba(0,0,0,0.1);
+  background: #fff;
+  border-left: 1px solid #ddd;
+  z-index: 2147483647;
+  font-family: system-ui, sans-serif;
+  padding: 8px;
+  overflow-y: auto;
+}
+
+.codexia-card { border: 1px solid #ccc; padding: 8px; margin-bottom: 8px; border-radius: 4px; }
+button { padding: 4px 8px; margin-top: 4px; }
+textarea { width: 100%; min-height: 120px; }
+.badge { display: inline-block; padding: 2px 4px; background: #eee; border-radius: 4px; margin: 2px; }
+.bar { width: 100%; background: #eee; height: 8px; border-radius: 4px; overflow: hidden; }
+.bar-fill { height: 100%; background: #0a0; }

@@ -1,18 +1,11 @@
 {
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "jsx": "react-jsx",
     "outDir": "dist",
-    "composite": true
+    "rootDir": "src",
+    "types": ["chrome"]
   },
-  "include": [
-    "src"
-  ],
-  "references": [
-    {
-      "path": "../contracts"
-    }
-  ],
-  "exclude": [
-    "src/**/*.test.ts"
-  ]
+  "include": ["src", "tests"],
+  "references": []
 }
