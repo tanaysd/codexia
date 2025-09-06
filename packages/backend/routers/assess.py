@@ -1,14 +1,14 @@
 from fastapi import APIRouter
+
 from ..schemas import Claim, AssessmentResult
+from ..agents.assessor_agent import assess_claim
+from ..core.config import Settings
 
 router = APIRouter(prefix="/v1", tags=["rcm"])
 
 
 @router.post("/assess", response_model=AssessmentResult)
 def assess(claim: Claim) -> AssessmentResult:
-    # deterministic stub
-    return AssessmentResult(
-        risk=0.72,
-        drivers=[{"line":0,"issue":"modifier_missing","why":"97012 + 97110 same DOS"}],
-        evidence=[{"source":"UHC-LCD-123.md","clauseId":"UHC-LCD-123 §3b","passage":"...","effective":{"from":"2024-01-01"}}],
-    )
+    vec_dir = Settings().VECTOR_PATH
+    out = assess_claim(claim.model_dump(by_alias=True), vec_dir, topk=5)
+    return AssessmentResult(**out)

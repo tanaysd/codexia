@@ -11,8 +11,14 @@ class Settings(BaseSettings):
     AUDIT_PATH: str = "./var/audit"
     LOG_LEVEL: str = "INFO"
     RAG_TOPK_DEFAULT: int = 5
+    RISK_WEIGHTS: dict = {
+        "modifier_missing": 0.35,
+        "dx_unspecific": 0.20,
+        "doc_missing": 0.25,
+        "dx_incompatibility": 0.30,
+        "lines": 0.10,
+    }
 
     def model_post_init(self, __context):
         os.makedirs(self.VECTOR_PATH, exist_ok=True)
         os.makedirs(self.AUDIT_PATH, exist_ok=True)
-

@@ -1,6 +1,9 @@
 from fastapi import APIRouter
 from pydantic import BaseModel
+
 from ..schemas import Claim, AssessmentResult, PlanResult
+from ..agents.planner_agent import make_plan
+from ..core.config import Settings
 
 router = APIRouter(prefix="/v1", tags=["rcm"])
 
@@ -12,7 +15,11 @@ class PlanRequest(BaseModel):
 
 @router.post("/plan", response_model=PlanResult)
 def plan(body: PlanRequest) -> PlanResult:
-    return PlanResult(plans=[
-        {"type":"recoding","actions":[{"line":0,"addModifier":"59","cite":"UHC-LCD-123 §3b"}],"rationale":"Distinct procedural service"},
-        {"type":"appeal","actions":[{"level":"L1","reason":"medical_necessity","cites":["CMS-NCD-456 §2"]}],"rationale":"Policy ambiguity"}
-    ])
+    vec_dir = Settings().VECTOR_PATH
+    out = make_plan(
+        body.claim.model_dump(by_alias=True),
+        body.assessment.model_dump(by_alias=True),
+        vec_dir,
+        topk=5,
+    )
+    return PlanResult(**out)
