@@ -1,21 +1,21 @@
-name: CI
-
+name: ci
 on:
-  push:
-    branches: [ main ]
+  push: { branches: ["**"] }
   pull_request:
-    branches: [ main ]
-
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 18
-          cache: npm
-      - run: npm install
-      - run: npm run lint
-      - run: npm test
-      - run: npm run typecheck
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: { node-version: "20" }
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - name: Bootstrap
+        run: make bootstrap
+      - name: Lint
+        run: make lint
+      - name: Typecheck
+        run: make typecheck
+      - name: Test
+        run: make test

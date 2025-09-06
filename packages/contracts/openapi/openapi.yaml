@@ -1,0 +1,140 @@
+openapi: 3.1.0
+info:
+  title: Codexia API
+  version: 0.1.0
+paths: {}
+components:
+  schemas:
+    Payer:
+      type: object
+      properties:
+        name: { type: string }
+        planId: { type: string }
+        state: { type: string }
+      required: [name, planId, state]
+    Patient:
+      type: object
+      properties:
+        dob: { type: string, format: date }
+        age: { type: integer }
+        sex: { type: string, enum: [M, F] }
+      required: [dob, age, sex]
+    Provider:
+      type: object
+      properties:
+        npi: { type: string }
+        siteOfService: { type: string }
+      required: [npi, siteOfService]
+    ClaimLine:
+      type: object
+      properties:
+        cpt: { type: string }
+        dx:
+          type: array
+          items: { type: string }
+        modifiers:
+          type: array
+          items: { type: string }
+        units: { type: integer }
+        charge: { type: number }
+      required: [cpt, dx, modifiers, units, charge]
+    Attachment:
+      type: object
+      properties:
+        type: { type: string }
+        id: { type: string }
+      required: [type, id]
+    HistoryEvent:
+      type: object
+      properties:
+        ts: { type: string, format: date-time }
+        event: { type: string }
+      required: [ts, event]
+    Claim:
+      type: object
+      properties:
+        claimId: { type: string }
+        payer: { $ref: '#/components/schemas/Payer' }
+        patient: { $ref: '#/components/schemas/Patient' }
+        provider: { $ref: '#/components/schemas/Provider' }
+        lines:
+          type: array
+          items: { $ref: '#/components/schemas/ClaimLine' }
+        attachments:
+          type: array
+          items: { $ref: '#/components/schemas/Attachment' }
+        history:
+          type: array
+          items: { $ref: '#/components/schemas/HistoryEvent' }
+        notes:
+          type: array
+          items: { type: string }
+      required: [claimId, payer, patient, provider, lines]
+      example:
+        claimId: CLM-1001
+        payer: { name: UnitedHealthcare, planId: UHC-GOLD-CA, state: CA }
+        patient: { dob: '1962-05-14', age: 63, sex: F }
+        provider: { npi: '1093817465', siteOfService: '11' }
+        lines:
+          - { cpt: '97012', dx: ['M25.50'], modifiers: [''], units: 1, charge: 180 }
+          - { cpt: '97110', dx: ['M25.50'], modifiers: [''], units: 1, charge: 190 }
+        attachments: [ { type: progress_note, id: doc_123 } ]
+        history: [ { ts: '2025-09-05T10:00:00Z', event: created } ]
+        notes: [ 'Therapeutic exercise same session; distinct procedural service not indicated in line 1.' ]
+    AssessmentResult:
+      type: object
+      properties:
+        claimId: { type: string }
+        risk: { type: number, minimum: 0, maximum: 1 }
+        drivers:
+          type: array
+          items: { type: string }
+        evidence:
+          type: array
+          items: { type: string }
+      required: [claimId, risk]
+      example:
+        claimId: CLM-1001
+        risk: 0.5
+        drivers: []
+        evidence: []
+    RecodingPlan:
+      type: object
+      properties:
+        claimId: { type: string }
+        planType: { type: string, enum: [recoding] }
+        codes:
+          type: array
+          items: { type: string }
+      required: [claimId, planType]
+    AppealPlan:
+      type: object
+      properties:
+        claimId: { type: string }
+        planType: { type: string, enum: [appeal] }
+        rationale: { type: string }
+      required: [claimId, planType, rationale]
+    PlanResult:
+      oneOf:
+        - $ref: '#/components/schemas/RecodingPlan'
+        - $ref: '#/components/schemas/AppealPlan'
+    ActResult:
+      type: object
+      properties:
+        claimId: { type: string }
+        actions:
+          type: array
+          items: { type: string }
+      required: [claimId]
+      example:
+        claimId: CLM-1001
+        actions: []
+    BriefResult:
+      type: object
+      properties:
+        claimId: { type: string }
+        summary: { type: string }
+      required: [claimId, summary]
+      example:
+        claimId: CLM-1001
+        summary: ''
