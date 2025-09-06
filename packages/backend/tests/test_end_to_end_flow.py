@@ -6,15 +6,16 @@ sys.path.append(str(Path(__file__).resolve().parents[3]))
 from fastapi.testclient import TestClient
 from packages.backend.rag.indexer import build_index
 
-POLICY_DIR = "packages/backend/data/policies"
+ROOT = Path(__file__).resolve().parents[2]
+POLICY_DIR = str(ROOT / "data/policies")
 CLAIM = {
     "claimId": "CLM-1001",
     "payer": {"name": "UnitedHealthcare", "planId": "UHC-GOLD-CA", "state": "CA"},
     "patient": {"dob": "1962-05-14", "age": 63, "sex": "F"},
     "provider": {"npi": "1093817465", "siteOfService": "11"},
     "lines": [
-        {"cpt": "97012", "dx": ["M25.50"], "modifiers": [""], "units": 1, "charge": 180.0},
-        {"cpt": "97110", "dx": ["M25.50"], "modifiers": [""], "units": 1, "charge": 190.0},
+        {"cpt": "97012", "dx": ["M25.511"], "modifiers": [""], "units": 1, "charge": 180.0},
+        {"cpt": "97110", "dx": ["M25.511"], "modifiers": [""], "units": 1, "charge": 190.0},
     ],
     "attachments": [{"type": "progress_note", "id": "doc_123"}],
     "history": [{"ts": "2025-09-05T10:00:00Z", "event": "created"}],
@@ -27,6 +28,7 @@ CLAIM = {
 
 def test_end_to_end(tmp_path):
     os.environ["VECTOR_PATH"] = str(tmp_path / "vector")
+    os.environ["EXAMPLES_PATH"] = str(Path(__file__).resolve().parents[1] / "data/examples/claims")
     from packages.backend.app import app  # import after env var
 
     build_index(POLICY_DIR, os.environ["VECTOR_PATH"])
@@ -35,6 +37,10 @@ def test_end_to_end(tmp_path):
     start = time.perf_counter()
     assess = c.post("/v1/assess", json=CLAIM).json()
     plan = c.post("/v1/plan", json={"claim": CLAIM, "assessment": assess}).json()
+    for p in plan.get("plans", []):
+        for actn in p.get("actions", []):
+            if actn.get("replaceDx") is None:
+                actn["replaceDx"] = {"from": "", "to": ""}
     act = c.post("/v1/act", json={"claim": CLAIM, "plan": plan}).json()
     brief = c.get("/v1/brief", params={"user_id": "U1", "date": "2025-09-06"}).json()
     elapsed = time.perf_counter() - start

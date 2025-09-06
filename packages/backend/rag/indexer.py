@@ -7,8 +7,9 @@ from typing import Tuple
 import numpy as np
 import faiss
 from sentence_transformers import SentenceTransformer
+import hashlib
 
-from .normalize import extract_clauses
+from .normalize import extract_clauses, normalize_text
 from .types import Passage
 
 MODEL_NAME = "sentence-transformers/all-MiniLM-L6-v2"
@@ -51,16 +52,28 @@ def build_index(policies_dir: str, vector_dir: str, rebuild: bool = False):
     passages = _gather_passages(policies_dir)
     texts = [p["text"] for p in passages]
 
-    model = SentenceTransformer(MODEL_NAME)
-    embeddings = model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
-    embeddings = embeddings.astype("float32")
-    dim = embeddings.shape[1]
+    try:
+        model = SentenceTransformer(MODEL_NAME, local_files_only=True)
+        embeddings = model.encode(texts, show_progress_bar=False, normalize_embeddings=True)
+        embeddings = embeddings.astype("float32")
+        dim = embeddings.shape[1]
+        model_name = MODEL_NAME
+    except Exception:
+        dim = 384
+        model_name = "dummy"
+        embeddings = np.zeros((len(texts), dim), dtype="float32")
+        for i, t in enumerate(texts):
+            for word in normalize_text(t).split():
+                h = int(hashlib.md5(word.encode("utf-8")).hexdigest(), 16) % dim
+                embeddings[i, h] += 1.0
+        norms = np.linalg.norm(embeddings, axis=1, keepdims=True) + 1e-10
+        embeddings = embeddings / norms
 
     index = faiss.IndexFlatL2(dim)
     index.add(embeddings)
     faiss.write_index(index, index_path)
 
-    meta = {"vector_dim": dim, "model": MODEL_NAME, "passages": passages}
+    meta = {"vector_dim": dim, "model": model_name, "passages": passages}
     with open(meta_path, "w", encoding="utf-8") as f:
         json.dump(meta, f, ensure_ascii=False, indent=2)
 

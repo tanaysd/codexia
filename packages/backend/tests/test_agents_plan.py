@@ -23,7 +23,8 @@ CASE_MOD59 = {
     ],
 }
 
-POLICY_DIR = "packages/backend/data/policies"
+ROOT = Path(__file__).resolve().parents[1]
+POLICY_DIR = str(ROOT / "data/policies")
 
 
 def test_planner_agent(tmp_path):

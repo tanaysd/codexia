@@ -6,8 +6,9 @@ sys.path.append(str(Path(__file__).resolve().parents[3]))
 from packages.backend.rag.indexer import build_index
 from packages.backend.services import compute_brief
 
-POLICY_DIR = "packages/backend/data/policies"
-EXAMPLES_DIR = "packages/backend/data/examples/claims"
+ROOT = Path(__file__).resolve().parents[1]
+POLICY_DIR = str(ROOT / "data/policies")
+EXAMPLES_DIR = str(ROOT / "data/examples/claims")
 
 
 def test_compute_brief(tmp_path):

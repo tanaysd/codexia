@@ -1,0 +1,14 @@
+{
+  "claimId": "CLM-6001",
+  "payer": {"name": "Medicare", "planId": "MC-NCD", "state": "CA"},
+  "patient": {"dob": "1957-04-06", "age": 68, "sex": "M"},
+  "provider": {"npi": "1093817465", "siteOfService": "11"},
+  "lines": [
+    {"cpt": "80050", "dx": ["Z01.89"], "modifiers": [], "units": 1, "charge": 165.0}
+  ],
+  "notes": [
+    "Comprehensive metabolic panel ordered without supporting medical necessity diagnosis."
+  ],
+  "expDeltaUsd": 165,
+  "deadline": "2025-09-15"
+}

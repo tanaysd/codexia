@@ -3,8 +3,9 @@ from fastapi import APIRouter, Query
 from ..schemas import BriefResult
 from ..core.config import Settings
 from ..services import compute_brief
+from pathlib import Path
 
-EXAMPLES_DIR = "packages/backend/data/examples/claims"
+EXAMPLES_DIR = str(Path(__file__).resolve().parents[1] / "data/examples/claims")
 
 router = APIRouter(prefix="/v1", tags=["rcm"])
 

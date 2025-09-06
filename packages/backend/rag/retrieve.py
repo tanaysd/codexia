@@ -4,6 +4,7 @@ from typing import Dict, Any, Tuple, Optional
 
 import numpy as np
 from sentence_transformers import SentenceTransformer
+import hashlib
 
 from .normalize import normalize_text
 from .indexer import load_index
@@ -25,9 +26,17 @@ def semantic_search(query: str, topk: int, vector_dir: str) -> Retrieval:
     except Exception:
         pass
 
-    model = SentenceTransformer(meta["model"])
     norm_q = normalize_text(query)
-    q_emb = model.encode([norm_q], normalize_embeddings=True).astype("float32")
+    try:
+        model = SentenceTransformer(meta["model"], local_files_only=True)
+        q_emb = model.encode([norm_q], normalize_embeddings=True).astype("float32")
+    except Exception:
+        dim = meta["vector_dim"]
+        q_emb = np.zeros((1, dim), dtype="float32")
+        for word in norm_q.split():
+            h = int(hashlib.md5(word.encode("utf-8")).hexdigest(), 16) % dim
+            q_emb[0, h] += 1.0
+        q_emb = q_emb / (np.linalg.norm(q_emb) + 1e-10)
 
     k = max(topk, 1)
     D, I = index.search(q_emb, k)

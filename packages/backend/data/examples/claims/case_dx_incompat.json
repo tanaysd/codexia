@@ -1,6 +1,6 @@
 {
   "claimId": "CLM-2001",
-  "payer": {"name": "UnitedHealthcare", "planId": "UHC-GOLD-CA", "state": "CA"},
+  "payer": {"name": "Humana", "planId": "HUM-PT-014", "state": "CA"},
   "patient": {"dob": "1963-02-10", "age": 62, "sex": "M"},
   "provider": {"npi": "1093817465", "siteOfService": "11"},
   "lines": [
