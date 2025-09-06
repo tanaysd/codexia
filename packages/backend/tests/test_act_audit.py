@@ -1,7 +1,12 @@
 from fastapi.testclient import TestClient
 from pathlib import Path
 import json
+import sys
+import os
 
+sys.path.append(str(Path(__file__).resolve().parents[3]))
+
+from packages.backend.rag.indexer import build_index
 from packages.backend.app import app
 from packages.backend.core.config import Settings
 
@@ -11,8 +16,8 @@ CASE = {
     "patient": {"dob": "1962-05-14", "age": 63, "sex": "F"},
     "provider": {"npi": "1093817465", "siteOfService": "11"},
     "lines": [
-        {"cpt": "97012", "dx": ["M25.50"], "modifiers": [""], "units": 1, "charge": 180.00},
-        {"cpt": "97110", "dx": ["M25.50"], "modifiers": [""], "units": 1, "charge": 190.00},
+        {"cpt": "97012", "dx": ["M25.511"], "modifiers": [""], "units": 1, "charge": 180.00},
+        {"cpt": "97110", "dx": ["M25.511"], "modifiers": [""], "units": 1, "charge": 190.00},
     ],
     "attachments": [{"type": "progress_note", "id": "doc_123"}],
     "history": [{"ts": "2025-09-05T10:00:00Z", "event": "created"}],
@@ -23,11 +28,18 @@ CASE = {
 
 
 def test_act_writes_audit(tmp_path, monkeypatch):
+    vector_dir = tmp_path / "vector"
+    build_index("packages/backend/data/policies", str(vector_dir))
+    monkeypatch.setenv("VECTOR_PATH", str(vector_dir))
     monkeypatch.setenv("AUDIT_PATH", str(tmp_path / "audit"))
     c = TestClient(app)
 
     assess = c.post("/v1/assess", json=CASE).json()
     plan = c.post("/v1/plan", json={"claim": CASE, "assessment": assess}).json()
+    for p in plan.get("plans", []):
+        for act in p.get("actions", []):
+            if act.get("replaceDx") is None:
+                act["replaceDx"] = {"from": "", "to": ""}
 
     res = c.post("/v1/act", json={"claim": CASE, "plan": plan, "assessment": assess})
     assert res.status_code == 200

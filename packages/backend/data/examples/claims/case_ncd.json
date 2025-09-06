@@ -1,6 +1,6 @@
 {
   "claimId": "CLM-3001",
-  "payer": {"name": "Medicare", "planId": "MC-NCD", "state": "CA"},
+  "payer": {"name": "Molina Healthcare", "planId": "MOL-MS-031", "state": "CA"},
   "patient": {"dob": "1959-11-21", "age": 65, "sex": "F"},
   "provider": {"npi": "1093817465", "siteOfService": "11"},
   "lines": [

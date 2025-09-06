@@ -1,0 +1,15 @@
+{
+  "claimId": "CLM-5001",
+  "payer": {"name": "Highmark", "planId": "HMK-RAD-PA", "state": "PA"},
+  "patient": {"dob": "1968-09-12", "age": 56, "sex": "F"},
+  "provider": {"npi": "1093817465", "siteOfService": "11"},
+  "lines": [
+    {"cpt": "99213", "dx": ["M54.5"], "modifiers": [], "units": 1, "charge": 150.0},
+    {"cpt": "20550", "dx": ["M54.5"], "modifiers": [], "units": 1, "charge": 210.0}
+  ],
+  "notes": [
+    "E/M visit with injection performed same session; modifier 25 missing on E/M line."
+  ],
+  "expDeltaUsd": 210,
+  "deadline": "2025-09-19"
+}

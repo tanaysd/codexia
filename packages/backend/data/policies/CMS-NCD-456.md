@@ -1,7 +1,7 @@
 # CMS-NCD-456 — Laboratory Testing Policy
 - clause_id: CMS-NCD-456 §2
 - effective: 2023-06-01 →
-Text: Test XYZ is considered medically necessary when diagnosis codes from M25.5x or M54.xx are present and documentation indicates functional impairment. Claims lacking these diagnoses are non-covered.
+Text: Medicare considers panel 80050 medically necessary when diagnosis codes from M25.5x or M54.xx are present and documentation indicates functional impairment. Claims lacking these diagnoses are non-covered.
 
 - clause_id: CMS-NCD-456 §5
 - effective: 2023-06-01 → 2025-08-31

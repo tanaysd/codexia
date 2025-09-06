@@ -1,0 +1,16 @@
+{
+  "claimId": "CLM-7001",
+  "payer": {"name": "UnitedHealthcare", "planId": "UHC-PT-222", "state": "CA"},
+  "patient": {"dob": "1965-01-30", "age": 60, "sex": "F"},
+  "provider": {"npi": "1093817465", "siteOfService": "11"},
+  "lines": [
+    {"cpt": "97012", "dx": ["M25.50"], "modifiers": [], "units": 1, "charge": 150.0},
+    {"cpt": "97110", "dx": ["M25.50"], "modifiers": [], "units": 1, "charge": 160.0},
+    {"cpt": "97140", "dx": ["M25.50"], "modifiers": [], "units": 1, "charge": 170.0}
+  ],
+  "notes": [
+    "Multiple therapy modalities billed without modifier 59 to indicate distinct time or body region."
+  ],
+  "expDeltaUsd": 380,
+  "deadline": "2025-09-18"
+}
