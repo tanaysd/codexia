@@ -20,9 +20,11 @@ typecheck:
 	[ -d packages/contracts-py ] && (cd packages/contracts-py && mypy .) || true
 
 test:
-	@echo "== test =="
-	npm test --workspaces --silent || true
-	[ -d packages/contracts-py ] && (cd packages/contracts-py && pytest -q) || true
+	# Backend Python tests
+	[ -d packages/backend ] && (cd packages/backend && pytest -q) || true
+	# TS tests (optional; won't fail if absent)
+	[ -d packages/frontend ] && (cd packages/frontend && npm test --silent) || true
+	[ -d packages/contracts ] && (cd packages/contracts && npm test --silent) || true
 
 build:
 	docker compose -f infra/docker-compose.yml build

@@ -12,6 +12,7 @@ from .data_rules import (
     MODIFIER_59_REQUIRED_PAIRS,
     ICD_SPECIFICITY_SUGGESTIONS,
     SITE_OF_SERVICE_RULES,
+    DX_CPT_INCOMPATIBLE_PAIRS,
 )
 
 
@@ -64,6 +65,20 @@ def icd_cpt_validate(claim: Dict) -> List[Dict]:
                         "why": f"{dx} is non-specific; consider site-specific alternative.",
                         "details": {"from": dx, "to": ICD_SPECIFICITY_SUGGESTIONS[dx][0]},
                         "policy_refs": ["Medicare-AB-2024-05 §4"],
+                    }
+                )
+                break
+
+        for dx in line.get("dx", []):
+            key = (cpt, dx)
+            if key in DX_CPT_INCOMPATIBLE_PAIRS:
+                meta = DX_CPT_INCOMPATIBLE_PAIRS[key]
+                issues.append(
+                    {
+                        "line": idx,
+                        "issue": "dx_incompatibility",
+                        "why": meta["why"],
+                        "policy_refs": sorted(meta.get("policy_refs", [])),
                     }
                 )
                 break
