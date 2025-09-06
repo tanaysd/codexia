@@ -4,6 +4,23 @@ services:
     ports: ["8000:8000"]
     environment:
       - PORT=8000
+      - LOG_LEVEL=INFO
+      - MAX_PAYLOAD_BYTES=1500000
+      - RATE_LIMIT_RPS=5
+      - ALLOWED_ORIGINS=http://localhost:5173,http://127.0.0.1:5173
+      - ENABLE_HSTS=false
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/readyz"]
+      interval: 10s
+      timeout: 2s
+      retries: 5
+      start_period: 5s
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 512M
+    restart: unless-stopped
   console:
     build: ./packages/frontend
     ports: ["5173:5173"]
