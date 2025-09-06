@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     VECTOR_PATH: str = "./var/vector"
     AUDIT_PATH: str = "./var/audit"
     LOG_LEVEL: str = "INFO"
+    RAG_TOPK_DEFAULT: int = 5
 
     def model_post_init(self, __context):
         os.makedirs(self.VECTOR_PATH, exist_ok=True)
