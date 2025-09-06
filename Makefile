@@ -25,6 +25,7 @@ test:
 	# TS tests (optional; won't fail if absent)
 	[ -d packages/frontend ] && (cd packages/frontend && npm test --silent) || true
 	[ -d packages/contracts ] && (cd packages/contracts && npm test --silent) || true
+	[ -d packages/extension ] && (cd packages/extension && npm test --silent) || true
 
 build:
 	docker compose -f infra/docker-compose.yml build
