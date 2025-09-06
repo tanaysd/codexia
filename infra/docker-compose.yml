@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  backend:
+    build: ..
+    command: node packages/backend/dist/index.js
+    volumes:
+      - ..:/app
+    working_dir: /app
+    ports:
+      - "3000:3000"

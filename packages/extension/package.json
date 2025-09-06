@@ -1,0 +1,10 @@
+{
+  "name": "@codexia/extension",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "license": "MIT",
+  "dependencies": {
+    "@codexia/contracts": "1.0.0"
+  }
+}
