@@ -1,10 +1,18 @@
 from fastapi import APIRouter
+from pydantic import BaseModel
+from ..schemas import Claim, AssessmentResult, PlanResult
 
-from codexia_contracts.contracts import Claim, PlanResult, RecodingPlan
+router = APIRouter(prefix="/v1", tags=["rcm"])
 
-router = APIRouter()
+
+class PlanRequest(BaseModel):
+    claim: Claim
+    assessment: AssessmentResult
 
 
 @router.post("/plan", response_model=PlanResult)
-def plan(claim: Claim) -> PlanResult:
-    return RecodingPlan(claim_id=claim.claim_id, codes=[])
+def plan(body: PlanRequest) -> PlanResult:
+    return PlanResult(plans=[
+        {"type":"recoding","actions":[{"line":0,"addModifier":"59","cite":"UHC-LCD-123 §3b"}],"rationale":"Distinct procedural service"},
+        {"type":"appeal","actions":[{"level":"L1","reason":"medical_necessity","cites":["CMS-NCD-456 §2"]}],"rationale":"Policy ambiguity"}
+    ])

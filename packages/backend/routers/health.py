@@ -1,13 +1,9 @@
 from fastapi import APIRouter
+import os
 
-router = APIRouter()
+router = APIRouter(tags=["ops"])
 
 
 @router.get("/healthz")
-def healthz() -> dict[str, str]:
-    return {"status": "ok"}
-
-
-@router.get("/metrics")
-def metrics() -> str:
-    return "# metrics\n"
+def healthz():
+    return {"status": "ok", "gitSha": os.getenv("GIT_SHA", "unknown")}
