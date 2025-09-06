@@ -1,0 +1,18 @@
+{
+  "claimId": "CLM-4001",
+  "payer": {"name": "BlueCross", "planId": "BCBS-P123", "state": "CA"},
+  "patient": {"dob": "1975-03-02", "age": 50, "sex": "M"},
+  "provider": {"npi": "1093817465", "siteOfService": "11"},
+  "lines": [
+    {
+      "cpt": "77080",
+      "dx": ["M25.511"],
+      "modifiers": [],
+      "units": 1,
+      "charge": 160.0,
+      "details": {"flags": ["imaging_generic"]}
+    }
+  ],
+  "expDeltaUsd": 180,
+  "deadline": "2025-09-08"
+}

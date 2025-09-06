@@ -11,6 +11,10 @@ class Settings(BaseSettings):
     AUDIT_PATH: str = "./var/audit"
     LOG_LEVEL: str = "INFO"
     RAG_TOPK_DEFAULT: int = 5
+    W_DELTA: float = 0.5
+    W_FEAS: float = 0.25
+    W_URG: float = 0.15
+    W_FIT: float = 0.10
     RISK_WEIGHTS: dict = {
         "modifier_missing": 0.35,
         "dx_unspecific": 0.20,

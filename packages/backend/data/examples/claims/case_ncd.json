@@ -1,0 +1,11 @@
+{
+  "claimId": "CLM-3001",
+  "payer": {"name": "Medicare", "planId": "MC-NCD", "state": "CA"},
+  "patient": {"dob": "1959-11-21", "age": 65, "sex": "F"},
+  "provider": {"npi": "1093817465", "siteOfService": "11"},
+  "lines": [
+    {"cpt": "97110", "dx": ["M25.50"], "modifiers": [], "units": 1, "charge": 210.0}
+  ],
+  "expDeltaUsd": 260,
+  "deadline": "2025-09-10"
+}

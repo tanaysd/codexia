@@ -22,3 +22,11 @@ SITE_OF_SERVICE_RULES = {
     # POS 11 is physician office; require documentation rationale for certain imaging/bundles
     "11": {"notes_required_for": ["imaging_generic"], "policy_refs": ["BCBS-P123 §7"]}
 }
+
+# CPT-ICD incompatibility demo pairs
+DX_CPT_INCOMPATIBLE_PAIRS = {
+    ("97110", "Z00.00"): {
+        "policy_refs": ["NCD-001 §1"],
+        "why": "Therapeutic exercise not covered for general checkup.",
+    }
+}
