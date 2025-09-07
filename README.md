@@ -32,3 +32,11 @@ Enable `Strict-Transport-Security` by setting `ENABLE_HSTS=true` **only** when s
 Payload and rate limits are configurable via environment variables such as
 `MAX_PAYLOAD_BYTES` and `RATE_LIMIT_RPS`. Metrics are exposed in Prometheus
 format at `/metrics` and include request counts, latencies and rate-limit drops.
+
+## Demo
+
+For a step-by-step walkthrough, see [DEMO_RUNBOOK.md](./DEMO_RUNBOOK.md).  
+To reset the environment:  
+```bash
+./scripts/reset_demo.sh
+```
