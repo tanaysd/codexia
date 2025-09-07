@@ -11,3 +11,4 @@ faiss-cpu==1.8.*
 sentence-transformers==3.0.*
 numpy==1.26.*
 scikit-learn==1.5.*
+ollama==0.3.*
