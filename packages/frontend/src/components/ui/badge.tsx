@@ -1,25 +1,14 @@
-import React from 'react';
+import * as React from "react";
+import { cn } from "./utils";
 
-interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: 'default' | 'destructive' | 'warning' | 'success' | 'outline';
-  children: React.ReactNode;
-}
+type V = "neutral" | "success" | "warn" | "danger";
 
-export function Badge({ variant = 'default', className = '', children, ...props }: BadgeProps) {
-  const variants = {
-    default: 'bg-slate-900 text-white hover:bg-slate-800',
-    destructive: 'bg-red-500 text-white hover:bg-red-600',
-    warning: 'bg-yellow-500 text-white hover:bg-yellow-600',
-    success: 'bg-green-500 text-white hover:bg-green-600',
-    outline: 'border border-slate-200 text-slate-900 hover:bg-slate-50'
-  };
+const map: Record<V, string> = {
+  neutral: "bg-slate-100 text-slate-700",
+  success: "bg-emerald-100 text-emerald-700",
+  warn: "bg-amber-100 text-amber-700",
+  danger: "bg-red-100 text-red-700"
+};
 
-  return (
-    <div
-      className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors ${variants[variant]} ${className}`}
-      {...props}
-    >
-      {children}
-    </div>
-  );
-}
+export const Badge = ({ variant = "neutral", className, ...p }: { variant?: V } & React.HTMLAttributes<HTMLSpanElement>) =>
+  <span className={cn("inline-flex items-center rounded-full px-2.5 py-1 text-xs font-semibold", map[variant], className)} {...p} />;
