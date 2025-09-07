@@ -6,6 +6,8 @@ import ArtifactViewer from '../components/ArtifactViewer';
 import { postAssess, postPlan, postAct } from '../lib/api';
 import { save, list } from '../lib/storage';
 import { AssessmentResult, PlanResult, ActResult, PlanOption } from '../lib/types';
+import { Card, CardContent } from '../components/ui/card';
+import { Button } from '../components/ui/button';
 
 interface Ctx {
   assessment: AssessmentResult | null;
@@ -83,33 +85,69 @@ export default function ClaimWorkbench() {
 
   return (
     <WorkbenchContext.Provider value={{ assessment, plan, artifact, setAssessment, setPlan, setArtifact }}>
-      <div className="p-4">
-        {showRecent && (
-          <div className="fixed inset-0 bg-black/50 flex items-center justify-center" onClick={() => setShowRecent(false)}>
-            <div className="bg-white p-4">
-              {list().map((c, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setClaimText(JSON.stringify(c, null, 2));
-                    setShowRecent(false);
-                  }}
-                  className="block w-full text-left"
-                >
-                  {JSON.stringify(c).slice(0, 60)}...
-                </button>
-              ))}
+      <div className="flex-1 flex flex-col bg-slate-50">
+        <div className="border-b border-slate-200 bg-white px-6 py-4 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-slate-900">Claim Workbench</h2>
+          <Button onClick={handleAssess} disabled={!claim}>
+            Assess Claim
+          </Button>
+        </div>
+        
+        <div className="flex-1 p-6">
+          <div className="grid grid-cols-2 gap-6 h-full">
+            <Card className="h-full">
+              <CardContent className="h-full">
+                <ClaimEditor text={claimText} setText={setClaimText} onAssess={handleAssess} />
+              </CardContent>
+            </Card>
+            
+            <div className="flex flex-col gap-6 h-full">
+              <Card>
+                <CardContent>
+                  <AssessmentView onPlan={handlePlan} />
+                </CardContent>
+              </Card>
+              
+              <Card>
+                <CardContent>
+                  <PlanChooser onAct={handleAct} />
+                </CardContent>
+              </Card>
+              
+              <Card className="flex-1">
+                <CardContent className="h-full">
+                  <ArtifactViewer />
+                </CardContent>
+              </Card>
             </div>
           </div>
-        )}
-        <div className="grid md:grid-cols-2 gap-4">
-          <ClaimEditor text={claimText} setText={setClaimText} onAssess={handleAssess} />
-          <div className="flex flex-col gap-4">
-            <AssessmentView onPlan={handlePlan} />
-            <PlanChooser onAct={handleAct} />
-            <ArtifactViewer />
-          </div>
         </div>
+        
+        {showRecent && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50" onClick={() => setShowRecent(false)}>
+            <Card className="max-w-md w-full m-4">
+              <CardContent>
+                <h3 className="text-lg font-semibold mb-4">Recent Claims</h3>
+                <div className="space-y-2">
+                  {list().map((c, i) => (
+                    <button
+                      key={i}
+                      onClick={() => {
+                        setClaimText(JSON.stringify(c, null, 2));
+                        setShowRecent(false);
+                      }}
+                      className="block w-full text-left p-3 rounded-md border border-slate-200 hover:bg-slate-50 transition-colors"
+                    >
+                      <div className="font-medium truncate">
+                        {JSON.stringify(c).slice(0, 60)}...
+                      </div>
+                    </button>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
       </div>
     </WorkbenchContext.Provider>
   );

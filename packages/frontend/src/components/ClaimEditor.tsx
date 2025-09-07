@@ -1,5 +1,6 @@
 import { useToast } from '../lib/ui';
 import React from 'react';
+import { Button } from './ui/button';
 
 const samples: Record<string, any> = {
   'mod-59': { lines: [{ modifiers: [] }] },
@@ -28,19 +29,31 @@ export default function ClaimEditor({ text, setText, onAssess }: Props) {
   }
 
   return (
-    <div>
-      <h3>Claim</h3>
+    <div className="h-full flex flex-col">
+      <div className="flex items-center justify-between mb-4">
+        <h3 className="text-lg font-semibold text-slate-900">Claim Editor</h3>
+        <div className="flex gap-2">
+          <Button variant="outline" size="sm" onClick={format}>
+            Format JSON
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => load('mod-59')}>
+            Sample 1
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => load('dx-incompat')}>
+            Sample 2
+          </Button>
+        </div>
+      </div>
+      
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
-        rows={20}
-        style={{ width: '100%' }}
+        className="flex-1 w-full p-4 border border-slate-200 rounded-md font-mono text-sm resize-none focus:outline-none focus:ring-2 focus:ring-slate-400 focus:border-transparent"
+        placeholder="Enter claim JSON data here..."
       />
-      <div className="flex flex-wrap gap-2 mt-2">
-        <button onClick={format}>Format JSON</button>
-        <button onClick={onAssess}>Assess (⌘/Ctrl+Enter)</button>
-        <button onClick={() => load('mod-59')}>Load Sample: mod-59</button>
-        <button onClick={() => load('dx-incompat')}>Load Sample: dx-incompat</button>
+      
+      <div className="mt-4 text-sm text-slate-500">
+        Use ⌘/Ctrl+Enter to assess the claim
       </div>
     </div>
   );
