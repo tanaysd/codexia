@@ -2,7 +2,7 @@ import os
 import time
 import json
 from fastapi import APIRouter, Response, status
-from ..core.config import Settings
+from core.config import Settings
 
 router = APIRouter(tags=["ops"])
 _START = time.time()

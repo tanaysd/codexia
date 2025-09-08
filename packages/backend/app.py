@@ -3,10 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
 from starlette.responses import Response
 from fastapi.responses import ORJSONResponse
-from .routers import health_router, assess_router, plan_router, act_router, brief_router
-from .core.config import Settings
-from .core.security import SecurityMiddleware, cors_config
-from .core.logging import configure as configure_logging, RequestLoggingMiddleware
+from routers import health_router, assess_router, plan_router, act_router, brief_router, chat_router
+from core.config import Settings
+from core.security import SecurityMiddleware, cors_config
+from core.logging import configure as configure_logging, RequestLoggingMiddleware
 import os
 
 
@@ -25,6 +25,7 @@ def get_app() -> FastAPI:
     app.include_router(plan_router)
     app.include_router(act_router)
     app.include_router(brief_router)
+    app.include_router(chat_router)
 
     @app.get("/metrics")
     def metrics():

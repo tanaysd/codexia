@@ -32,6 +32,58 @@ export function ChatPage() {
     scrollToBottom();
   }, [messages]);
 
+  const callLlamaAPI = async (userMessage: string, conversationHistory: Message[]): Promise<Message[]> => {
+    try {
+      const response = await fetch('http://localhost:8001/api/chat/message', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          message: userMessage,
+          conversation_history: conversationHistory.map(msg => ({
+            id: msg.id,
+            content: msg.content,
+            sender: msg.sender,
+            timestamp: msg.timestamp.toISOString(),
+            type: msg.type,
+            data: msg.data
+          }))
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+
+      const data = await response.json();
+      
+      // Convert API response back to our Message format
+      return data.messages.map((msg: any) => ({
+        id: msg.id,
+        content: msg.content,
+        sender: msg.sender,
+        timestamp: new Date(parseInt(msg.timestamp)),
+        type: msg.type,
+        data: msg.data
+      }));
+
+    } catch (error) {
+      console.error('Failed to call Llama API:', error);
+      
+      // Fallback to a simple response if API fails
+      return [
+        {
+          id: Date.now().toString(),
+          content: "I'm having trouble connecting to my AI brain right now, but I'm still here to help! As an RCM expert, I can assist with claims processing, modifiers, denials, and payer policies. Could you try your question again?",
+          sender: 'ai',
+          timestamp: new Date(),
+          type: 'text'
+        }
+      ];
+    }
+  };
+
   const mockAIResponse = (userMessage: string): Message[] => {
     const lowercaseMessage = userMessage.toLowerCase();
     
@@ -257,12 +309,15 @@ export function ChatPage() {
     setInput('');
     setIsTyping(true);
 
-    // Simulate AI thinking time
-    setTimeout(() => {
-      const aiResponses = mockAIResponse(input);
+    // Call real Llama API
+    try {
+      const aiResponses = await callLlamaAPI(input, messages);
       setMessages(prev => [...prev, ...aiResponses]);
       setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    } catch (error) {
+      console.error('Failed to get AI response:', error);
+      setIsTyping(false);
+    }
   };
 
   const quickActions = [

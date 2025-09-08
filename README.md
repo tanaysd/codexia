@@ -28,6 +28,7 @@
 
 | Feature | Description | Impact |
 |---------|-------------|---------|
+| **🔥 Alex AI Chat** | Conversational RCM expert powered by Llama 3.2 3B | 🚀 Instant expert guidance |
 | **Intelligent Triage** | Auto-prioritizes claims by denial risk and revenue impact | ⏰ 80% faster claim review |
 | **Real-time Assessment** | Instant analysis against 1000+ payer policies | 🎯 95% accuracy rate |
 | **Automated Corrections** | Generates corrected claims with proper modifiers/codes | 💰 Reduces denials by 60% |
@@ -35,6 +36,12 @@
 | **Learning Workflow** | Explains decisions for team training and knowledge transfer | 🧑‍🎓 Accelerates staff onboarding |
 
 ## 💡 Demo Scenarios
+
+### **🔥 Chat with Alex** - AI-Powered RCM Expert
+- **Natural Language**: Ask Alex anything about claims processing
+- **Expert Responses**: 15+ years of RCM experience via Llama 3.2 3B
+- **Real-time Help**: Instant guidance on modifiers, denials, payer policies
+- **Interactive**: Conversational interface replaces complex workflows
 
 ### **Morning Brief** - Daily Claims Queue
 - View prioritized claims needing attention
@@ -71,6 +78,15 @@
 
 ## 🚀 Quick Start
 
+**Prerequisites:**
+```bash
+# Install Ollama for AI chat
+curl -fsSL https://ollama.ai/install.sh | sh
+
+# Download Llama 3.2 3B model
+ollama pull llama3.2:3b
+```
+
 **One-command setup and run:**
 ```bash
 make setup && make dev
@@ -82,9 +98,11 @@ make setup && make dev
 ```
 
 **Access the app:**
-- Frontend: http://localhost:5173
-- Backend API: http://localhost:8000  
-- API Docs: http://localhost:8000/docs
+- **Frontend**: http://localhost:5173
+- **Chat with Alex**: http://localhost:5173/chat 🔥
+- **Backend API**: http://localhost:8000  
+- **AI Chat API**: http://localhost:8001
+- **API Docs**: http://localhost:8000/docs
 
 ## 🎯 Use Cases
 
@@ -103,13 +121,21 @@ make setup && make dev
 - Identify common denial patterns
 - Optimize reimbursement strategies
 
-## 🔮 Next: Making Codexia a Killer App
+## 🔥 **NEW: Alex - AI-Powered RCM Expert** 
 
-### **Chat Interface** 💬
-Transform claim processing into natural conversations:
+### **Chat Interface** 💬 ✅ **LIVE NOW**
+Transform claim processing into natural conversations with Alex, our AI-powered RCM expert with 15+ years of experience:
+
+**🤖 Powered by Llama 3.2 3B** - Running locally via Ollama for real-time responses
+
+**Try these commands:**
 - *"Show me high-risk claims from today"*
 - *"Why was CLM-1001 flagged for modifier 59?"*
+- *"Help me with UHC modifier requirements"*
 - *"Generate an appeal for the diabetes coverage denial"*
+- *"Find claims with missing modifiers"*
+
+**Access Alex at:** http://localhost:5173/chat 🔥
 
 ### **Interactive Claim Manipulation** ⚡
 - Real-time editing with AI suggestions
