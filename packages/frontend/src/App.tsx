@@ -1,12 +1,13 @@
 import React from "react";
 import { Link, Outlet, createBrowserRouter, RouterProvider } from "react-router-dom";
-import { Calendar, ClipboardList, Brain, TrendingUp, MessageCircle, Heart, Shield } from "lucide-react";
+import { Calendar, ClipboardList, Brain, TrendingUp, MessageCircle, Heart, Shield, Target } from "lucide-react";
 import { BriefPage } from "./pages/BriefPage";
 import { WorkbenchPage } from "./pages/WorkbenchPage";
 import { PersonalizationPage } from "./pages/PersonalizationPage";
 import { ChatPage } from "./pages/ChatPage";
 import { AboutPage } from "./pages/AboutPage";
 import { PreventionPage } from "./pages/PreventionPage";
+import { TrainingGymPage } from "./pages/TrainingGymPage";
 
 function Shell({ children }: { children: React.ReactNode }) {
   return (
@@ -20,6 +21,10 @@ function Shell({ children }: { children: React.ReactNode }) {
           <Link to="/chat" className="flex items-center gap-2 hover:text-slate-300 py-2 px-2 rounded transition-colors">
             <MessageCircle size={18}/> Chat with Alex
             <span className="ml-auto bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">🔥</span>
+          </Link>
+          <Link to="/training" className="flex items-center gap-2 hover:text-slate-300 py-2 px-2 rounded transition-colors">
+            <Target size={18}/> Training Gym
+            <span className="ml-auto bg-purple-500 text-white text-xs px-2 py-0.5 rounded-full">NEW</span>
           </Link>
           <Link to="/workbench" className="flex items-center gap-2 hover:text-slate-300 py-2 px-2 rounded transition-colors">
             <ClipboardList size={18}/> Workbench
@@ -74,6 +79,7 @@ const router = createBrowserRouter([
   { path: "/brief", element: <Shell><BriefPage/></Shell> },
   { path: "/workbench", element: <Shell><WorkbenchPage/></Shell> },
   { path: "/chat", element: <Shell><ChatPage/></Shell> },
+  { path: "/training", element: <Shell><TrainingGymPage/></Shell> },
   { path: "/prevention", element: <Shell><PreventionPage/></Shell> },
   { path: "/insights", element: <Shell><PersonalizationPage/></Shell> },
   { path: "/about", element: <Shell><AboutPage/></Shell> }

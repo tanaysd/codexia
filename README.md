@@ -28,6 +28,7 @@
 
 | Feature | Description | Impact |
 |---------|-------------|---------|
+| **🎯 Training Gym** | AI-powered learning platform with personalized scenarios | 🏆 Transforms RCM training |
 | **🔥 Alex AI Chat** | Conversational RCM expert powered by Llama 3.2 3B | 🚀 Instant expert guidance |
 | **Intelligent Triage** | Auto-prioritizes claims by denial risk and revenue impact | ⏰ 80% faster claim review |
 | **Real-time Assessment** | Instant analysis against 1000+ payer policies | 🎯 95% accuracy rate |
@@ -36,6 +37,13 @@
 | **Learning Workflow** | Explains decisions for team training and knowledge transfer | 🧑‍🎓 Accelerates staff onboarding |
 
 ## 💡 Demo Scenarios
+
+### **🎯 Training Gym** - Revolutionary Learning Platform
+- **Personalized Learning**: AI generates scenarios tailored to your skill level
+- **Real-Time Coaching**: Get hints and explanations when you struggle
+- **Adaptive Difficulty**: System learns and adjusts challenge level automatically
+- **Gamification**: Earn XP, unlock achievements, climb leaderboards
+- **Safe Practice**: Train on realistic scenarios without real-world consequences
 
 ### **🔥 Chat with Alex** - AI-Powered RCM Expert
 - **Natural Language**: Ask Alex anything about claims processing
@@ -58,21 +66,34 @@
 
 ```
 ┌─ Frontend (React + Tailwind) ─┐    ┌─ Backend (FastAPI + AI) ─┐
-│  • Morning Brief              │    │  • Assessment Engine     │
-│  • Claim Workbench           │◄──►│  • Plan Generation       │
-│  • Modern UI Components      │    │  • Artifact Creation     │
-└───────────────────────────────┘    └─────────────────────────┘
-                                               │
+│  • Training Gym 🎯           │    │  • Assessment Engine     │
+│  • Chat with Alex 🔥         │◄──►│  • Plan Generation       │
+│  • Morning Brief             │    │  • Artifact Creation     │
+│  • Claim Workbench           │    │  • Training API          │
+│  • Modern UI Components      │    └─────────────────────────┘
+└───────────────────────────────┘                │
+                                                  │
+                              ┌─ Local Llama 3.2 3B (Ollama) ─┐
+                              │  • Scenario Generation        │
+                              │  • Real-time Coaching         │
+                              │  • Adaptive Difficulty        │
+                              │  • Performance Analysis       │
+                              └────────────────────────────────┘
+                                                  │
                                       ┌─ Vector Index (FAISS) ─┐
                                       │  • Policy Documents     │
                                       │  • Payer Guidelines     │ 
                                       │  • Claims History       │
+                                      │  • Training Scenarios   │
                                       └─────────────────────────┘
 ```
 
 **Packages:**
-- `packages/frontend` – React web app with modern UI
-- `packages/backend` – FastAPI service with AI engines
+- `packages/frontend` – React web app with Training Gym & Chat UI
+- `packages/backend` – FastAPI service with AI engines & Training API
+  - `training_gym/` – LLM-powered learning platform
+  - `agents/` – Scenario generation & adaptive coaching
+  - `models/` – Training data structures
 - `packages/contracts` – shared TypeScript interfaces
 - `packages/extension` – browser extension for EMR integration
 
@@ -99,29 +120,46 @@ make setup && make dev
 
 **Access the app:**
 - **Frontend**: http://localhost:5173
+- **Training Gym**: http://localhost:5173/training 🎯
 - **Chat with Alex**: http://localhost:5173/chat 🔥
 - **Backend API**: http://localhost:8000  
 - **AI Chat API**: http://localhost:8001
+- **Training API**: http://localhost:8002
 - **API Docs**: http://localhost:8000/docs
 
 ## 🎯 Use Cases
 
 ### **For RCM Teams**
-- Reduce claim review time from hours to minutes
-- Standardize decision-making across team members
-- Improve first-pass claim accuracy
+- **Reduce claim review time** from hours to minutes
+- **Standardize decision-making** across team members
+- **Improve first-pass claim accuracy** through training
+- **Safe skill building** with unlimited practice scenarios
 
 ### **For Healthcare Providers**
-- Accelerate revenue cycle operations
-- Reduce claim denials and appeals
-- Train new staff faster with AI explanations
+- **Accelerate revenue cycle operations** with AI guidance
+- **Reduce claim denials and appeals** proactively
+- **Train new staff faster** with personalized AI coaching
+- **Scale expertise** across large teams consistently
 
 ### **For Payers/Consultants**
-- Audit claim processing workflows
-- Identify common denial patterns
-- Optimize reimbursement strategies
+- **Audit claim processing workflows** systematically
+- **Identify common denial patterns** with analytics
+- **Optimize reimbursement strategies** through data insights
+- **Benchmark team performance** with leaderboards
 
-## 🔥 **NEW: Alex - AI-Powered RCM Expert** 
+## 🔥 **NEW: AI-Powered Features**
+
+### **🎯 Training Gym** - LLM-Powered Learning Platform ✅ **LIVE NOW**
+Revolutionary RCM training system with personalized AI coaching:
+
+**🧠 Powered by Llama 3.2 3B** - Local AI generates unlimited training scenarios
+- **Personalized Scenarios**: AI creates custom challenges based on your skill level
+- **Real-Time Coaching**: Get contextual hints when you're stuck
+- **Adaptive Difficulty**: System learns and adjusts to your performance
+- **Gamification**: Levels, XP, achievements, and leaderboards
+- **4 Difficulty Levels**: Beginner → Intermediate → Expert → Master
+
+**Access Training Gym at:** http://localhost:5173/training 🎯
 
 ### **Chat Interface** 💬 ✅ **LIVE NOW**
 Transform claim processing into natural conversations with Alex, our AI-powered RCM expert with 15+ years of experience:
@@ -148,6 +186,26 @@ Transform claim processing into natural conversations with Alex, our AI-powered 
 - Batch processing with confidence thresholds
 - Learning from user corrections to improve accuracy
 - Integration with EMR/PMS for seamless workflow
+
+## 🛠️ Technology Stack
+
+### **AI & Machine Learning**
+- **Llama 3.2 3B** - Local LLM via Ollama for chat & training
+- **FAISS** - Vector similarity search for policy matching
+- **Sentence Transformers** - Semantic embeddings
+- **Custom RL Agents** - Adaptive difficulty and coaching
+
+### **Backend**
+- **FastAPI** - High-performance API framework
+- **Pydantic** - Data validation and serialization
+- **SQLAlchemy** - Database ORM (future)
+- **Prometheus** - Metrics and monitoring
+
+### **Frontend**
+- **React 18** - Modern UI framework
+- **TypeScript** - Type-safe development
+- **Tailwind CSS** - Utility-first styling
+- **Vite** - Fast development and building
 
 ## Demo
 
