@@ -161,6 +161,8 @@ Revolutionary RCM training system with personalized AI coaching:
 
 **Access Training Gym at:** http://localhost:5173/training 🎯
 
+📖 **[Complete Training Gym Documentation →](./TRAINING_GYM.md)**
+
 ### **Chat Interface** 💬 ✅ **LIVE NOW**
 Transform claim processing into natural conversations with Alex, our AI-powered RCM expert with 15+ years of experience:
 
